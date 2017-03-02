@@ -1,0 +1,28 @@
+int a, b;
+int m(){
+float a,b;
+if(a>b) return 0;
+return 1;
+}
+
+void main()
+{
+int y[10];
+char c, d;
+
+float x;
+c = 'a';
+x=10; 
+y=20;
+x=a;
+b = m();
+/*d = *c; */
+switch(a)
+{
+case 0:
+	break;
+case 1:
+	break;
+	
+}
+}

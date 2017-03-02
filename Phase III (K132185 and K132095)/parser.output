@@ -1,0 +1,3766 @@
+Terminals unused in grammar
+
+   '-'
+   '+'
+   '*'
+   '/'
+   '^'
+
+
+State 234 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: TransitionUnit $end
+
+    1 TransitionUnit: /* empty */
+    2               | ExternalDeclaration TransitionUnit_a
+
+    3 TransitionUnit_a: /* empty */
+    4                 | ExternalDeclaration TransitionUnit_a
+
+    5 ExternalDeclaration: FunctionDefinition
+    6                    | Declaration
+
+    7 FunctionDefinition: TypeSpecifier Declarator FunctionDefinition_a
+    8                   | Declarator FunctionDefinition_b
+
+    9 FunctionDefinition_a: DeclarationList CompoundStatement
+   10                     | CompoundStatement
+
+   11 FunctionDefinition_b: DeclarationList CompoundStatement
+   12                     | CompoundStatement
+
+   13 TypeSpecifier: VOID
+   14              | CHAR
+   15              | INT
+   16              | FLOAT
+
+   17 Declarator: DirectDeclarator
+
+   18 $@1: /* empty */
+
+   19 Declarator: Pointer $@1 DirectDeclarator
+
+   20 $@2: /* empty */
+
+   21 DirectDeclarator: Identifier $@2 DirectDeclarator_a
+
+   22 DirectDeclarator_a: /* empty */
+
+   23 $@3: /* empty */
+
+   24 DirectDeclarator_a: $@3 OpeningRoundBracket DirectDeclarator_b
+   25                   | OpeningSquareBracket DirectDeclarator_c
+
+   26 DirectDeclarator_b: Declarator ClosingRoundBracket DirectDeclarator_a
+   27                   | ParameterList ClosingRoundBracket DirectDeclarator_a
+   28                   | ClosingRoundBracket DirectDeclarator_a
+
+   29 DirectDeclarator_c: ClosingSquareBracket DirectDeclarator_a
+
+   30 $@4: /* empty */
+
+   31 DirectDeclarator_c: Integer ClosingSquareBracket $@4 DirectDeclarator_a
+
+   32 Pointer: Multiply Pointer_a
+
+   33 Pointer_a: /* empty */
+   34          | Pointer
+
+   35 DeclarationList: Declaration DeclarationList_a
+
+   36 DeclarationList_a: /* empty */
+   37                  | Declaration DeclarationList_a
+
+   38 Declaration: TypeSpecifier Declaration_a EndOfStatement
+
+   39 Declaration_a: /* empty */
+   40              | InitDeclaratorList
+
+   41 InitDeclaratorList: InitDeclarator
+   42                   | InitDeclaratorList Comma InitDeclarator
+
+   43 InitDeclarator: Declarator
+   44               | Declarator Assign Initializer
+
+   45 Initializer: AssignmentExpression
+   46            | OpeningBraces InitializerList ClosingBraces
+
+   47 InitializerList: Initializer
+
+   48 $@5: /* empty */
+
+   49 InitializerList: InitializerList Comma $@5 Initializer
+
+   50 ParameterList: ParameterDeclaration ParameterList_a
+
+   51 ParameterList_a: /* empty */
+   52                | Comma ParameterDeclaration ParameterList_a
+
+   53 $@6: /* empty */
+
+   54 ParameterDeclaration: TypeSpecifier $@6 ParameterDeclaration_a
+
+   55 ParameterDeclaration_a: /* empty */
+   56                       | Declarator
+
+   57 CompoundStatement: OpeningBraces ClosingBraces
+   58                  | OpeningBraces StatementList ClosingBraces
+   59                  | OpeningBraces DeclarationList ClosingBraces
+   60                  | OpeningBraces DeclarationList StatementList ClosingBraces
+
+   61 StatementList: Statement StatementList_a
+
+   62 StatementList_a: /* empty */
+   63                | Statement StatementList_a
+
+   64 Statement: LabeledStatement
+   65          | CompoundStatement
+   66          | ExpressionStatement
+   67          | SelectionStatement
+   68          | IterationStatement
+   69          | JumpStatement
+
+   70 LabeledStatement: CASE Integer Colon Statement
+   71                 | CASE Character Colon Statement
+   72                 | DEFAULT Colon Statement
+
+   73 ExpressionStatement: EndOfStatement
+   74                    | Expression EndOfStatement
+
+   75 SelectionStatement: IF OpeningRoundBracket Expression ClosingRoundBracket Statement SelectionStatement_a
+
+   76 SelectionStatement_a: /* empty */
+   77                     | ELSE Statement
+
+   78 $@7: /* empty */
+
+   79 SelectionStatement: SWITCH OpeningRoundBracket Expression $@7 ClosingRoundBracket Statement
+
+   80 JumpStatement: CONTINUE EndOfStatement
+   81              | BREAK EndOfStatement
+   82              | RETURN JumpStatement_a
+
+   83 JumpStatement_a: Expression EndOfStatement
+
+   84 IterationStatement: WHILE OpeningRoundBracket Expression ClosingRoundBracket Statement
+   85                   | DO Statement WHILE OpeningRoundBracket Expression ClosingRoundBracket EndOfStatement
+   86                   | FOR OpeningRoundBracket ExpressionStatement ExpressionStatement ClosingRoundBracket Statement
+   87                   | FOR OpeningRoundBracket ExpressionStatement ExpressionStatement Expression ClosingRoundBracket Statement
+
+   88 ConditionalExpression: EqualityExpression ConditionalExpression_a
+
+   89 ConditionalExpression_a: /* empty */
+
+   90 $@8: /* empty */
+
+   91 ConditionalExpression_a: ConditionalOperator Expression $@8 Colon ConditionalExpression
+
+   92 Expression: AssignmentExpression Expression_a
+
+   93 Expression_a: /* empty */
+   94             | Comma AssignmentExpression Expression_a
+
+   95 AssignmentExpression: ConditionalExpression
+
+   96 $@9: /* empty */
+
+   97 $@10: /* empty */
+
+   98 AssignmentExpression: UnaryExpression $@9 AssignmentOperator $@10 AssignmentExpression
+
+   99 EqualityExpression: RelationalExpression EqualityExpression_a
+
+  100 EqualityExpression_a: /* empty */
+  101                     | IsEqualTo RelationalExpression EqualityExpression_a
+  102                     | NotEqualTo RelationalExpression EqualityExpression_a
+
+  103 RelationalExpression: AdditiveExpression RelationalExpression_a
+
+  104 RelationalExpression_a: /* empty */
+  105                       | LessThan AdditiveExpression RelationalExpression_a
+  106                       | GreaterThan AdditiveExpression RelationalExpression_a
+  107                       | LessThanEqualTo AdditiveExpression RelationalExpression_a
+  108                       | GreaterThanEqualTo AdditiveExpression RelationalExpression_a
+
+  109 AdditiveExpression: MultiplicativeExpression AdditiveExpression_a
+
+  110 AdditiveExpression_a: /* empty */
+  111                     | Add MultiplicativeExpression AdditiveExpression_a
+  112                     | Subtract MultiplicativeExpression AdditiveExpression_a
+
+  113 MultiplicativeExpression: UnaryExpression MultiplicativeExpression_a
+
+  114 MultiplicativeExpression_a: /* empty */
+  115                           | Multiply UnaryExpression MultiplicativeExpression_a
+  116                           | Divide UnaryExpression MultiplicativeExpression_a
+  117                           | Modulus UnaryExpression MultiplicativeExpression_a
+
+  118 AssignmentOperator: Assign
+  119                   | AddAndAssign
+  120                   | SubtractAndAssign
+  121                   | MultiplyAndAssign
+  122                   | DivideAndAssign
+
+  123 Constant: Integer
+  124         | Character
+  125         | Real
+
+  126 UnaryExpression: PostFixExpression
+  127                | Increment UnaryExpression
+  128                | Decrement UnaryExpression
+
+  129 PostFixExpression: PrimaryExpression PostFixExpression_a
+
+  130 PostFixExpression_a: /* empty */
+
+  131 $@11: /* empty */
+
+  132 $@12: /* empty */
+
+  133 $@13: /* empty */
+
+  134 PostFixExpression_a: $@11 OpeningSquareBracket Expression $@12 ClosingSquareBracket $@13 PostFixExpression_a
+  135                    | OpeningRoundBracket PostFixExpression_b
+  136                    | Increment PostFixExpression_a
+  137                    | Decrement PostFixExpression_a
+
+  138 PostFixExpression_b: ArgumentExpressionList ClosingRoundBracket PostFixExpression_a
+  139                    | ClosingRoundBracket PostFixExpression_a
+
+  140 ArgumentExpressionList: AssignmentExpression
+  141                       | ArgumentExpressionList Comma AssignmentExpression
+
+  142 PrimaryExpression: Identifier
+  143                  | Constant
+  144                  | String
+  145                  | OpeningRoundBracket Expression ClosingRoundBracket
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'*' (42)
+'+' (43)
+'-' (45)
+'/' (47)
+'^' (94)
+error (256)
+Identifier (258) 21 142
+Integer (259) 31 70 123
+Character (260) 71 124
+Real (261) 125
+String (262) 144
+INT (263) 15
+VOID (264) 13
+CHAR (265) 14
+FLOAT (266) 16
+Subtract (267) 112
+Add (268) 111
+Multiply (269) 32 115
+Divide (270) 116
+Modulus (271) 117
+Assign (272) 44 118
+AddAndAssign (273) 119
+MultiplyAndAssign (274) 121
+DivideAndAssign (275) 122
+SubtractAndAssign (276) 120
+BREAK (277) 81
+CASE (278) 70 71
+CONTINUE (279) 80
+DEFAULT (280) 72
+DO (281) 85
+ELSE (282) 77
+IF (283) 75
+FOR (284) 86 87
+WHILE (285) 84 85
+RETURN (286) 82
+SWITCH (287) 79
+Colon (288) 70 71 72 91
+Comma (289) 42 49 52 94 141
+EndOfStatement (290) 38 73 74 80 81 83 85
+ConditionalOperator (291) 91
+ClosingBraces (292) 46 57 58 59 60
+ClosingRoundBracket (293) 26 27 28 75 79 84 85 86 87 138 139 145
+ClosingSquareBracket (294) 29 31 134
+OpeningBraces (295) 46 57 58 59 60
+OpeningRoundBracket (296) 24 75 79 84 85 86 87 135 145
+OpeningSquareBracket (297) 25 134
+Increment (298) 127 136
+Decrement (299) 128 137
+LessThan (300) 105
+GreaterThan (301) 106
+LessThanEqualTo (302) 107
+GreaterThanEqualTo (303) 108
+IsEqualTo (304) 101
+NotEqualTo (305) 102
+
+
+Nonterminals, with rules where they appear
+
+$accept (56)
+    on left: 0
+TransitionUnit (57)
+    on left: 1 2, on right: 0
+TransitionUnit_a (58)
+    on left: 3 4, on right: 2 4
+ExternalDeclaration (59)
+    on left: 5 6, on right: 2 4
+FunctionDefinition (60)
+    on left: 7 8, on right: 5
+FunctionDefinition_a (61)
+    on left: 9 10, on right: 7
+FunctionDefinition_b (62)
+    on left: 11 12, on right: 8
+TypeSpecifier (63)
+    on left: 13 14 15 16, on right: 7 38 54
+Declarator (64)
+    on left: 17 19, on right: 7 8 26 43 44 56
+$@1 (65)
+    on left: 18, on right: 19
+DirectDeclarator (66)
+    on left: 21, on right: 17 19
+$@2 (67)
+    on left: 20, on right: 21
+DirectDeclarator_a (68)
+    on left: 22 24 25, on right: 21 26 27 28 29 31
+$@3 (69)
+    on left: 23, on right: 24
+DirectDeclarator_b (70)
+    on left: 26 27 28, on right: 24
+DirectDeclarator_c (71)
+    on left: 29 31, on right: 25
+$@4 (72)
+    on left: 30, on right: 31
+Pointer (73)
+    on left: 32, on right: 19 34
+Pointer_a (74)
+    on left: 33 34, on right: 32
+DeclarationList (75)
+    on left: 35, on right: 9 11 59 60
+DeclarationList_a (76)
+    on left: 36 37, on right: 35 37
+Declaration (77)
+    on left: 38, on right: 6 35 37
+Declaration_a (78)
+    on left: 39 40, on right: 38
+InitDeclaratorList (79)
+    on left: 41 42, on right: 40 42
+InitDeclarator (80)
+    on left: 43 44, on right: 41 42
+Initializer (81)
+    on left: 45 46, on right: 44 47 49
+InitializerList (82)
+    on left: 47 49, on right: 46 49
+$@5 (83)
+    on left: 48, on right: 49
+ParameterList (84)
+    on left: 50, on right: 27
+ParameterList_a (85)
+    on left: 51 52, on right: 50 52
+ParameterDeclaration (86)
+    on left: 54, on right: 50 52
+$@6 (87)
+    on left: 53, on right: 54
+ParameterDeclaration_a (88)
+    on left: 55 56, on right: 54
+CompoundStatement (89)
+    on left: 57 58 59 60, on right: 9 10 11 12 65
+StatementList (90)
+    on left: 61, on right: 58 60
+StatementList_a (91)
+    on left: 62 63, on right: 61 63
+Statement (92)
+    on left: 64 65 66 67 68 69, on right: 61 63 70 71 72 75 77 79 84
+    85 86 87
+LabeledStatement (93)
+    on left: 70 71 72, on right: 64
+ExpressionStatement (94)
+    on left: 73 74, on right: 66 86 87
+SelectionStatement (95)
+    on left: 75 79, on right: 67
+SelectionStatement_a (96)
+    on left: 76 77, on right: 75
+$@7 (97)
+    on left: 78, on right: 79
+JumpStatement (98)
+    on left: 80 81 82, on right: 69
+JumpStatement_a (99)
+    on left: 83, on right: 82
+IterationStatement (100)
+    on left: 84 85 86 87, on right: 68
+ConditionalExpression (101)
+    on left: 88, on right: 91 95
+ConditionalExpression_a (102)
+    on left: 89 91, on right: 88
+$@8 (103)
+    on left: 90, on right: 91
+Expression (104)
+    on left: 92, on right: 74 75 79 83 84 85 87 91 134 145
+Expression_a (105)
+    on left: 93 94, on right: 92 94
+AssignmentExpression (106)
+    on left: 95 98, on right: 45 92 94 98 140 141
+$@9 (107)
+    on left: 96, on right: 98
+$@10 (108)
+    on left: 97, on right: 98
+EqualityExpression (109)
+    on left: 99, on right: 88
+EqualityExpression_a (110)
+    on left: 100 101 102, on right: 99 101 102
+RelationalExpression (111)
+    on left: 103, on right: 99 101 102
+RelationalExpression_a (112)
+    on left: 104 105 106 107 108, on right: 103 105 106 107 108
+AdditiveExpression (113)
+    on left: 109, on right: 103 105 106 107 108
+AdditiveExpression_a (114)
+    on left: 110 111 112, on right: 109 111 112
+MultiplicativeExpression (115)
+    on left: 113, on right: 109 111 112
+MultiplicativeExpression_a (116)
+    on left: 114 115 116 117, on right: 113 115 116 117
+AssignmentOperator (117)
+    on left: 118 119 120 121 122, on right: 98
+Constant (118)
+    on left: 123 124 125, on right: 143
+UnaryExpression (119)
+    on left: 126 127 128, on right: 98 113 115 116 117 127 128
+PostFixExpression (120)
+    on left: 129, on right: 126
+PostFixExpression_a (121)
+    on left: 130 134 135 136 137, on right: 129 134 136 137 138 139
+$@11 (122)
+    on left: 131, on right: 134
+$@12 (123)
+    on left: 132, on right: 134
+$@13 (124)
+    on left: 133, on right: 134
+PostFixExpression_b (125)
+    on left: 138 139, on right: 135
+ArgumentExpressionList (126)
+    on left: 140 141, on right: 138 141
+PrimaryExpression (127)
+    on left: 142 143 144 145, on right: 129
+
+
+state 0
+
+    0 $accept: . TransitionUnit $end
+
+    Identifier  shift, and go to state 1
+    INT         shift, and go to state 2
+    VOID        shift, and go to state 3
+    CHAR        shift, and go to state 4
+    FLOAT       shift, and go to state 5
+    Multiply    shift, and go to state 6
+
+    $default  reduce using rule 1 (TransitionUnit)
+
+    TransitionUnit       go to state 7
+    ExternalDeclaration  go to state 8
+    FunctionDefinition   go to state 9
+    TypeSpecifier        go to state 10
+    Declarator           go to state 11
+    DirectDeclarator     go to state 12
+    Pointer              go to state 13
+    Declaration          go to state 14
+
+
+state 1
+
+   21 DirectDeclarator: Identifier . $@2 DirectDeclarator_a
+
+    $default  reduce using rule 20 ($@2)
+
+    $@2  go to state 15
+
+
+state 2
+
+   15 TypeSpecifier: INT .
+
+    $default  reduce using rule 15 (TypeSpecifier)
+
+
+state 3
+
+   13 TypeSpecifier: VOID .
+
+    $default  reduce using rule 13 (TypeSpecifier)
+
+
+state 4
+
+   14 TypeSpecifier: CHAR .
+
+    $default  reduce using rule 14 (TypeSpecifier)
+
+
+state 5
+
+   16 TypeSpecifier: FLOAT .
+
+    $default  reduce using rule 16 (TypeSpecifier)
+
+
+state 6
+
+   32 Pointer: Multiply . Pointer_a
+
+    Multiply  shift, and go to state 6
+
+    $default  reduce using rule 33 (Pointer_a)
+
+    Pointer    go to state 16
+    Pointer_a  go to state 17
+
+
+state 7
+
+    0 $accept: TransitionUnit . $end
+
+    $end  shift, and go to state 18
+
+
+state 8
+
+    2 TransitionUnit: ExternalDeclaration . TransitionUnit_a
+
+    Identifier  shift, and go to state 1
+    INT         shift, and go to state 2
+    VOID        shift, and go to state 3
+    CHAR        shift, and go to state 4
+    FLOAT       shift, and go to state 5
+    Multiply    shift, and go to state 6
+
+    $default  reduce using rule 3 (TransitionUnit_a)
+
+    TransitionUnit_a     go to state 19
+    ExternalDeclaration  go to state 20
+    FunctionDefinition   go to state 9
+    TypeSpecifier        go to state 10
+    Declarator           go to state 11
+    DirectDeclarator     go to state 12
+    Pointer              go to state 13
+    Declaration          go to state 14
+
+
+state 9
+
+    5 ExternalDeclaration: FunctionDefinition .
+
+    $default  reduce using rule 5 (ExternalDeclaration)
+
+
+state 10
+
+    7 FunctionDefinition: TypeSpecifier . Declarator FunctionDefinition_a
+   38 Declaration: TypeSpecifier . Declaration_a EndOfStatement
+
+    Identifier  shift, and go to state 1
+    Multiply    shift, and go to state 6
+
+    $default  reduce using rule 39 (Declaration_a)
+
+    Declarator          go to state 21
+    DirectDeclarator    go to state 12
+    Pointer             go to state 13
+    Declaration_a       go to state 22
+    InitDeclaratorList  go to state 23
+    InitDeclarator      go to state 24
+
+
+state 11
+
+    8 FunctionDefinition: Declarator . FunctionDefinition_b
+
+    INT            shift, and go to state 2
+    VOID           shift, and go to state 3
+    CHAR           shift, and go to state 4
+    FLOAT          shift, and go to state 5
+    OpeningBraces  shift, and go to state 25
+
+    FunctionDefinition_b  go to state 26
+    TypeSpecifier         go to state 27
+    DeclarationList       go to state 28
+    Declaration           go to state 29
+    CompoundStatement     go to state 30
+
+
+state 12
+
+   17 Declarator: DirectDeclarator .
+
+    $default  reduce using rule 17 (Declarator)
+
+
+state 13
+
+   19 Declarator: Pointer . $@1 DirectDeclarator
+
+    $default  reduce using rule 18 ($@1)
+
+    $@1  go to state 31
+
+
+state 14
+
+    6 ExternalDeclaration: Declaration .
+
+    $default  reduce using rule 6 (ExternalDeclaration)
+
+
+state 15
+
+   21 DirectDeclarator: Identifier $@2 . DirectDeclarator_a
+
+    OpeningSquareBracket  shift, and go to state 32
+
+    OpeningRoundBracket  reduce using rule 23 ($@3)
+    $default             reduce using rule 22 (DirectDeclarator_a)
+
+    DirectDeclarator_a  go to state 33
+    $@3                 go to state 34
+
+
+state 16
+
+   34 Pointer_a: Pointer .
+
+    $default  reduce using rule 34 (Pointer_a)
+
+
+state 17
+
+   32 Pointer: Multiply Pointer_a .
+
+    $default  reduce using rule 32 (Pointer)
+
+
+state 18
+
+    0 $accept: TransitionUnit $end .
+
+    $default  accept
+
+
+state 19
+
+    2 TransitionUnit: ExternalDeclaration TransitionUnit_a .
+
+    $default  reduce using rule 2 (TransitionUnit)
+
+
+state 20
+
+    4 TransitionUnit_a: ExternalDeclaration . TransitionUnit_a
+
+    Identifier  shift, and go to state 1
+    INT         shift, and go to state 2
+    VOID        shift, and go to state 3
+    CHAR        shift, and go to state 4
+    FLOAT       shift, and go to state 5
+    Multiply    shift, and go to state 6
+
+    $default  reduce using rule 3 (TransitionUnit_a)
+
+    TransitionUnit_a     go to state 35
+    ExternalDeclaration  go to state 20
+    FunctionDefinition   go to state 9
+    TypeSpecifier        go to state 10
+    Declarator           go to state 11
+    DirectDeclarator     go to state 12
+    Pointer              go to state 13
+    Declaration          go to state 14
+
+
+state 21
+
+    7 FunctionDefinition: TypeSpecifier Declarator . FunctionDefinition_a
+   43 InitDeclarator: Declarator .
+   44               | Declarator . Assign Initializer
+
+    INT            shift, and go to state 2
+    VOID           shift, and go to state 3
+    CHAR           shift, and go to state 4
+    FLOAT          shift, and go to state 5
+    Assign         shift, and go to state 36
+    OpeningBraces  shift, and go to state 25
+
+    $default  reduce using rule 43 (InitDeclarator)
+
+    FunctionDefinition_a  go to state 37
+    TypeSpecifier         go to state 27
+    DeclarationList       go to state 38
+    Declaration           go to state 29
+    CompoundStatement     go to state 39
+
+
+state 22
+
+   38 Declaration: TypeSpecifier Declaration_a . EndOfStatement
+
+    EndOfStatement  shift, and go to state 40
+
+
+state 23
+
+   40 Declaration_a: InitDeclaratorList .
+   42 InitDeclaratorList: InitDeclaratorList . Comma InitDeclarator
+
+    Comma  shift, and go to state 41
+
+    $default  reduce using rule 40 (Declaration_a)
+
+
+state 24
+
+   41 InitDeclaratorList: InitDeclarator .
+
+    $default  reduce using rule 41 (InitDeclaratorList)
+
+
+state 25
+
+   57 CompoundStatement: OpeningBraces . ClosingBraces
+   58                  | OpeningBraces . StatementList ClosingBraces
+   59                  | OpeningBraces . DeclarationList ClosingBraces
+   60                  | OpeningBraces . DeclarationList StatementList ClosingBraces
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    INT                  shift, and go to state 2
+    VOID                 shift, and go to state 3
+    CHAR                 shift, and go to state 4
+    FLOAT                shift, and go to state 5
+    BREAK                shift, and go to state 47
+    CASE                 shift, and go to state 48
+    CONTINUE             shift, and go to state 49
+    DEFAULT              shift, and go to state 50
+    DO                   shift, and go to state 51
+    IF                   shift, and go to state 52
+    FOR                  shift, and go to state 53
+    WHILE                shift, and go to state 54
+    RETURN               shift, and go to state 55
+    SWITCH               shift, and go to state 56
+    EndOfStatement       shift, and go to state 57
+    ClosingBraces        shift, and go to state 58
+    OpeningBraces        shift, and go to state 25
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    TypeSpecifier             go to state 27
+    DeclarationList           go to state 62
+    Declaration               go to state 29
+    CompoundStatement         go to state 63
+    StatementList             go to state 64
+    Statement                 go to state 65
+    LabeledStatement          go to state 66
+    ExpressionStatement       go to state 67
+    SelectionStatement        go to state 68
+    JumpStatement             go to state 69
+    IterationStatement        go to state 70
+    ConditionalExpression     go to state 71
+    Expression                go to state 72
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 26
+
+    8 FunctionDefinition: Declarator FunctionDefinition_b .
+
+    $default  reduce using rule 8 (FunctionDefinition)
+
+
+state 27
+
+   38 Declaration: TypeSpecifier . Declaration_a EndOfStatement
+
+    Identifier  shift, and go to state 1
+    Multiply    shift, and go to state 6
+
+    $default  reduce using rule 39 (Declaration_a)
+
+    Declarator          go to state 82
+    DirectDeclarator    go to state 12
+    Pointer             go to state 13
+    Declaration_a       go to state 22
+    InitDeclaratorList  go to state 23
+    InitDeclarator      go to state 24
+
+
+state 28
+
+   11 FunctionDefinition_b: DeclarationList . CompoundStatement
+
+    OpeningBraces  shift, and go to state 25
+
+    CompoundStatement  go to state 83
+
+
+state 29
+
+   35 DeclarationList: Declaration . DeclarationList_a
+
+    INT    shift, and go to state 2
+    VOID   shift, and go to state 3
+    CHAR   shift, and go to state 4
+    FLOAT  shift, and go to state 5
+
+    $default  reduce using rule 36 (DeclarationList_a)
+
+    TypeSpecifier      go to state 27
+    DeclarationList_a  go to state 84
+    Declaration        go to state 85
+
+
+state 30
+
+   12 FunctionDefinition_b: CompoundStatement .
+
+    $default  reduce using rule 12 (FunctionDefinition_b)
+
+
+state 31
+
+   19 Declarator: Pointer $@1 . DirectDeclarator
+
+    Identifier  shift, and go to state 1
+
+    DirectDeclarator  go to state 86
+
+
+state 32
+
+   25 DirectDeclarator_a: OpeningSquareBracket . DirectDeclarator_c
+
+    Integer               shift, and go to state 87
+    ClosingSquareBracket  shift, and go to state 88
+
+    DirectDeclarator_c  go to state 89
+
+
+state 33
+
+   21 DirectDeclarator: Identifier $@2 DirectDeclarator_a .
+
+    $default  reduce using rule 21 (DirectDeclarator)
+
+
+state 34
+
+   24 DirectDeclarator_a: $@3 . OpeningRoundBracket DirectDeclarator_b
+
+    OpeningRoundBracket  shift, and go to state 90
+
+
+state 35
+
+    4 TransitionUnit_a: ExternalDeclaration TransitionUnit_a .
+
+    $default  reduce using rule 4 (TransitionUnit_a)
+
+
+state 36
+
+   44 InitDeclarator: Declarator Assign . Initializer
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningBraces        shift, and go to state 91
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    Initializer               go to state 92
+    ConditionalExpression     go to state 71
+    AssignmentExpression      go to state 93
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 37
+
+    7 FunctionDefinition: TypeSpecifier Declarator FunctionDefinition_a .
+
+    $default  reduce using rule 7 (FunctionDefinition)
+
+
+state 38
+
+    9 FunctionDefinition_a: DeclarationList . CompoundStatement
+
+    OpeningBraces  shift, and go to state 25
+
+    CompoundStatement  go to state 94
+
+
+state 39
+
+   10 FunctionDefinition_a: CompoundStatement .
+
+    $default  reduce using rule 10 (FunctionDefinition_a)
+
+
+state 40
+
+   38 Declaration: TypeSpecifier Declaration_a EndOfStatement .
+
+    $default  reduce using rule 38 (Declaration)
+
+
+state 41
+
+   42 InitDeclaratorList: InitDeclaratorList Comma . InitDeclarator
+
+    Identifier  shift, and go to state 1
+    Multiply    shift, and go to state 6
+
+    Declarator        go to state 82
+    DirectDeclarator  go to state 12
+    Pointer           go to state 13
+    InitDeclarator    go to state 95
+
+
+state 42
+
+  142 PrimaryExpression: Identifier .
+
+    $default  reduce using rule 142 (PrimaryExpression)
+
+
+state 43
+
+  123 Constant: Integer .
+
+    $default  reduce using rule 123 (Constant)
+
+
+state 44
+
+  124 Constant: Character .
+
+    $default  reduce using rule 124 (Constant)
+
+
+state 45
+
+  125 Constant: Real .
+
+    $default  reduce using rule 125 (Constant)
+
+
+state 46
+
+  144 PrimaryExpression: String .
+
+    $default  reduce using rule 144 (PrimaryExpression)
+
+
+state 47
+
+   81 JumpStatement: BREAK . EndOfStatement
+
+    EndOfStatement  shift, and go to state 96
+
+
+state 48
+
+   70 LabeledStatement: CASE . Integer Colon Statement
+   71                 | CASE . Character Colon Statement
+
+    Integer    shift, and go to state 97
+    Character  shift, and go to state 98
+
+
+state 49
+
+   80 JumpStatement: CONTINUE . EndOfStatement
+
+    EndOfStatement  shift, and go to state 99
+
+
+state 50
+
+   72 LabeledStatement: DEFAULT . Colon Statement
+
+    Colon  shift, and go to state 100
+
+
+state 51
+
+   85 IterationStatement: DO . Statement WHILE OpeningRoundBracket Expression ClosingRoundBracket EndOfStatement
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    BREAK                shift, and go to state 47
+    CASE                 shift, and go to state 48
+    CONTINUE             shift, and go to state 49
+    DEFAULT              shift, and go to state 50
+    DO                   shift, and go to state 51
+    IF                   shift, and go to state 52
+    FOR                  shift, and go to state 53
+    WHILE                shift, and go to state 54
+    RETURN               shift, and go to state 55
+    SWITCH               shift, and go to state 56
+    EndOfStatement       shift, and go to state 57
+    OpeningBraces        shift, and go to state 25
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    CompoundStatement         go to state 63
+    Statement                 go to state 101
+    LabeledStatement          go to state 66
+    ExpressionStatement       go to state 67
+    SelectionStatement        go to state 68
+    JumpStatement             go to state 69
+    IterationStatement        go to state 70
+    ConditionalExpression     go to state 71
+    Expression                go to state 72
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 52
+
+   75 SelectionStatement: IF . OpeningRoundBracket Expression ClosingRoundBracket Statement SelectionStatement_a
+
+    OpeningRoundBracket  shift, and go to state 102
+
+
+state 53
+
+   86 IterationStatement: FOR . OpeningRoundBracket ExpressionStatement ExpressionStatement ClosingRoundBracket Statement
+   87                   | FOR . OpeningRoundBracket ExpressionStatement ExpressionStatement Expression ClosingRoundBracket Statement
+
+    OpeningRoundBracket  shift, and go to state 103
+
+
+state 54
+
+   84 IterationStatement: WHILE . OpeningRoundBracket Expression ClosingRoundBracket Statement
+
+    OpeningRoundBracket  shift, and go to state 104
+
+
+state 55
+
+   82 JumpStatement: RETURN . JumpStatement_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    JumpStatement_a           go to state 105
+    ConditionalExpression     go to state 71
+    Expression                go to state 106
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 56
+
+   79 SelectionStatement: SWITCH . OpeningRoundBracket Expression $@7 ClosingRoundBracket Statement
+
+    OpeningRoundBracket  shift, and go to state 107
+
+
+state 57
+
+   73 ExpressionStatement: EndOfStatement .
+
+    $default  reduce using rule 73 (ExpressionStatement)
+
+
+state 58
+
+   57 CompoundStatement: OpeningBraces ClosingBraces .
+
+    $default  reduce using rule 57 (CompoundStatement)
+
+
+state 59
+
+  145 PrimaryExpression: OpeningRoundBracket . Expression ClosingRoundBracket
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    ConditionalExpression     go to state 71
+    Expression                go to state 108
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 60
+
+  127 UnaryExpression: Increment . UnaryExpression
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    Constant           go to state 78
+    UnaryExpression    go to state 109
+    PostFixExpression  go to state 80
+    PrimaryExpression  go to state 81
+
+
+state 61
+
+  128 UnaryExpression: Decrement . UnaryExpression
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    Constant           go to state 78
+    UnaryExpression    go to state 110
+    PostFixExpression  go to state 80
+    PrimaryExpression  go to state 81
+
+
+state 62
+
+   59 CompoundStatement: OpeningBraces DeclarationList . ClosingBraces
+   60                  | OpeningBraces DeclarationList . StatementList ClosingBraces
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    BREAK                shift, and go to state 47
+    CASE                 shift, and go to state 48
+    CONTINUE             shift, and go to state 49
+    DEFAULT              shift, and go to state 50
+    DO                   shift, and go to state 51
+    IF                   shift, and go to state 52
+    FOR                  shift, and go to state 53
+    WHILE                shift, and go to state 54
+    RETURN               shift, and go to state 55
+    SWITCH               shift, and go to state 56
+    EndOfStatement       shift, and go to state 57
+    ClosingBraces        shift, and go to state 111
+    OpeningBraces        shift, and go to state 25
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    CompoundStatement         go to state 63
+    StatementList             go to state 112
+    Statement                 go to state 65
+    LabeledStatement          go to state 66
+    ExpressionStatement       go to state 67
+    SelectionStatement        go to state 68
+    JumpStatement             go to state 69
+    IterationStatement        go to state 70
+    ConditionalExpression     go to state 71
+    Expression                go to state 72
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 63
+
+   65 Statement: CompoundStatement .
+
+    $default  reduce using rule 65 (Statement)
+
+
+state 64
+
+   58 CompoundStatement: OpeningBraces StatementList . ClosingBraces
+
+    ClosingBraces  shift, and go to state 113
+
+
+state 65
+
+   61 StatementList: Statement . StatementList_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    BREAK                shift, and go to state 47
+    CASE                 shift, and go to state 48
+    CONTINUE             shift, and go to state 49
+    DEFAULT              shift, and go to state 50
+    DO                   shift, and go to state 51
+    IF                   shift, and go to state 52
+    FOR                  shift, and go to state 53
+    WHILE                shift, and go to state 54
+    RETURN               shift, and go to state 55
+    SWITCH               shift, and go to state 56
+    EndOfStatement       shift, and go to state 57
+    OpeningBraces        shift, and go to state 25
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    $default  reduce using rule 62 (StatementList_a)
+
+    CompoundStatement         go to state 63
+    StatementList_a           go to state 114
+    Statement                 go to state 115
+    LabeledStatement          go to state 66
+    ExpressionStatement       go to state 67
+    SelectionStatement        go to state 68
+    JumpStatement             go to state 69
+    IterationStatement        go to state 70
+    ConditionalExpression     go to state 71
+    Expression                go to state 72
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 66
+
+   64 Statement: LabeledStatement .
+
+    $default  reduce using rule 64 (Statement)
+
+
+state 67
+
+   66 Statement: ExpressionStatement .
+
+    $default  reduce using rule 66 (Statement)
+
+
+state 68
+
+   67 Statement: SelectionStatement .
+
+    $default  reduce using rule 67 (Statement)
+
+
+state 69
+
+   69 Statement: JumpStatement .
+
+    $default  reduce using rule 69 (Statement)
+
+
+state 70
+
+   68 Statement: IterationStatement .
+
+    $default  reduce using rule 68 (Statement)
+
+
+state 71
+
+   95 AssignmentExpression: ConditionalExpression .
+
+    $default  reduce using rule 95 (AssignmentExpression)
+
+
+state 72
+
+   74 ExpressionStatement: Expression . EndOfStatement
+
+    EndOfStatement  shift, and go to state 116
+
+
+state 73
+
+   92 Expression: AssignmentExpression . Expression_a
+
+    Comma  shift, and go to state 117
+
+    $default  reduce using rule 93 (Expression_a)
+
+    Expression_a  go to state 118
+
+
+state 74
+
+   88 ConditionalExpression: EqualityExpression . ConditionalExpression_a
+
+    ConditionalOperator  shift, and go to state 119
+
+    $default  reduce using rule 89 (ConditionalExpression_a)
+
+    ConditionalExpression_a  go to state 120
+
+
+state 75
+
+   99 EqualityExpression: RelationalExpression . EqualityExpression_a
+
+    IsEqualTo   shift, and go to state 121
+    NotEqualTo  shift, and go to state 122
+
+    $default  reduce using rule 100 (EqualityExpression_a)
+
+    EqualityExpression_a  go to state 123
+
+
+state 76
+
+  103 RelationalExpression: AdditiveExpression . RelationalExpression_a
+
+    LessThan            shift, and go to state 124
+    GreaterThan         shift, and go to state 125
+    LessThanEqualTo     shift, and go to state 126
+    GreaterThanEqualTo  shift, and go to state 127
+
+    $default  reduce using rule 104 (RelationalExpression_a)
+
+    RelationalExpression_a  go to state 128
+
+
+state 77
+
+  109 AdditiveExpression: MultiplicativeExpression . AdditiveExpression_a
+
+    Subtract  shift, and go to state 129
+    Add       shift, and go to state 130
+
+    $default  reduce using rule 110 (AdditiveExpression_a)
+
+    AdditiveExpression_a  go to state 131
+
+
+state 78
+
+  143 PrimaryExpression: Constant .
+
+    $default  reduce using rule 143 (PrimaryExpression)
+
+
+state 79
+
+   98 AssignmentExpression: UnaryExpression . $@9 AssignmentOperator $@10 AssignmentExpression
+  113 MultiplicativeExpression: UnaryExpression . MultiplicativeExpression_a
+
+    Multiply  shift, and go to state 132
+    Divide    shift, and go to state 133
+    Modulus   shift, and go to state 134
+
+    Assign             reduce using rule 96 ($@9)
+    AddAndAssign       reduce using rule 96 ($@9)
+    MultiplyAndAssign  reduce using rule 96 ($@9)
+    DivideAndAssign    reduce using rule 96 ($@9)
+    SubtractAndAssign  reduce using rule 96 ($@9)
+    $default           reduce using rule 114 (MultiplicativeExpression_a)
+
+    $@9                         go to state 135
+    MultiplicativeExpression_a  go to state 136
+
+
+state 80
+
+  126 UnaryExpression: PostFixExpression .
+
+    $default  reduce using rule 126 (UnaryExpression)
+
+
+state 81
+
+  129 PostFixExpression: PrimaryExpression . PostFixExpression_a
+
+    OpeningRoundBracket  shift, and go to state 137
+    Increment            shift, and go to state 138
+    Decrement            shift, and go to state 139
+
+    OpeningSquareBracket  reduce using rule 131 ($@11)
+    $default              reduce using rule 130 (PostFixExpression_a)
+
+    PostFixExpression_a  go to state 140
+    $@11                 go to state 141
+
+
+state 82
+
+   43 InitDeclarator: Declarator .
+   44               | Declarator . Assign Initializer
+
+    Assign  shift, and go to state 36
+
+    $default  reduce using rule 43 (InitDeclarator)
+
+
+state 83
+
+   11 FunctionDefinition_b: DeclarationList CompoundStatement .
+
+    $default  reduce using rule 11 (FunctionDefinition_b)
+
+
+state 84
+
+   35 DeclarationList: Declaration DeclarationList_a .
+
+    $default  reduce using rule 35 (DeclarationList)
+
+
+state 85
+
+   37 DeclarationList_a: Declaration . DeclarationList_a
+
+    INT    shift, and go to state 2
+    VOID   shift, and go to state 3
+    CHAR   shift, and go to state 4
+    FLOAT  shift, and go to state 5
+
+    $default  reduce using rule 36 (DeclarationList_a)
+
+    TypeSpecifier      go to state 27
+    DeclarationList_a  go to state 142
+    Declaration        go to state 85
+
+
+state 86
+
+   19 Declarator: Pointer $@1 DirectDeclarator .
+
+    $default  reduce using rule 19 (Declarator)
+
+
+state 87
+
+   31 DirectDeclarator_c: Integer . ClosingSquareBracket $@4 DirectDeclarator_a
+
+    ClosingSquareBracket  shift, and go to state 143
+
+
+state 88
+
+   29 DirectDeclarator_c: ClosingSquareBracket . DirectDeclarator_a
+
+    OpeningSquareBracket  shift, and go to state 32
+
+    OpeningRoundBracket  reduce using rule 23 ($@3)
+    $default             reduce using rule 22 (DirectDeclarator_a)
+
+    DirectDeclarator_a  go to state 144
+    $@3                 go to state 34
+
+
+state 89
+
+   25 DirectDeclarator_a: OpeningSquareBracket DirectDeclarator_c .
+
+    $default  reduce using rule 25 (DirectDeclarator_a)
+
+
+state 90
+
+   24 DirectDeclarator_a: $@3 OpeningRoundBracket . DirectDeclarator_b
+
+    Identifier           shift, and go to state 1
+    INT                  shift, and go to state 2
+    VOID                 shift, and go to state 3
+    CHAR                 shift, and go to state 4
+    FLOAT                shift, and go to state 5
+    Multiply             shift, and go to state 6
+    ClosingRoundBracket  shift, and go to state 145
+
+    TypeSpecifier         go to state 146
+    Declarator            go to state 147
+    DirectDeclarator      go to state 12
+    DirectDeclarator_b    go to state 148
+    Pointer               go to state 13
+    ParameterList         go to state 149
+    ParameterDeclaration  go to state 150
+
+
+state 91
+
+   46 Initializer: OpeningBraces . InitializerList ClosingBraces
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningBraces        shift, and go to state 91
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    Initializer               go to state 151
+    InitializerList           go to state 152
+    ConditionalExpression     go to state 71
+    AssignmentExpression      go to state 93
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 92
+
+   44 InitDeclarator: Declarator Assign Initializer .
+
+    $default  reduce using rule 44 (InitDeclarator)
+
+
+state 93
+
+   45 Initializer: AssignmentExpression .
+
+    $default  reduce using rule 45 (Initializer)
+
+
+state 94
+
+    9 FunctionDefinition_a: DeclarationList CompoundStatement .
+
+    $default  reduce using rule 9 (FunctionDefinition_a)
+
+
+state 95
+
+   42 InitDeclaratorList: InitDeclaratorList Comma InitDeclarator .
+
+    $default  reduce using rule 42 (InitDeclaratorList)
+
+
+state 96
+
+   81 JumpStatement: BREAK EndOfStatement .
+
+    $default  reduce using rule 81 (JumpStatement)
+
+
+state 97
+
+   70 LabeledStatement: CASE Integer . Colon Statement
+
+    Colon  shift, and go to state 153
+
+
+state 98
+
+   71 LabeledStatement: CASE Character . Colon Statement
+
+    Colon  shift, and go to state 154
+
+
+state 99
+
+   80 JumpStatement: CONTINUE EndOfStatement .
+
+    $default  reduce using rule 80 (JumpStatement)
+
+
+state 100
+
+   72 LabeledStatement: DEFAULT Colon . Statement
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    BREAK                shift, and go to state 47
+    CASE                 shift, and go to state 48
+    CONTINUE             shift, and go to state 49
+    DEFAULT              shift, and go to state 50
+    DO                   shift, and go to state 51
+    IF                   shift, and go to state 52
+    FOR                  shift, and go to state 53
+    WHILE                shift, and go to state 54
+    RETURN               shift, and go to state 55
+    SWITCH               shift, and go to state 56
+    EndOfStatement       shift, and go to state 57
+    OpeningBraces        shift, and go to state 25
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    CompoundStatement         go to state 63
+    Statement                 go to state 155
+    LabeledStatement          go to state 66
+    ExpressionStatement       go to state 67
+    SelectionStatement        go to state 68
+    JumpStatement             go to state 69
+    IterationStatement        go to state 70
+    ConditionalExpression     go to state 71
+    Expression                go to state 72
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 101
+
+   85 IterationStatement: DO Statement . WHILE OpeningRoundBracket Expression ClosingRoundBracket EndOfStatement
+
+    WHILE  shift, and go to state 156
+
+
+state 102
+
+   75 SelectionStatement: IF OpeningRoundBracket . Expression ClosingRoundBracket Statement SelectionStatement_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    ConditionalExpression     go to state 71
+    Expression                go to state 157
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 103
+
+   86 IterationStatement: FOR OpeningRoundBracket . ExpressionStatement ExpressionStatement ClosingRoundBracket Statement
+   87                   | FOR OpeningRoundBracket . ExpressionStatement ExpressionStatement Expression ClosingRoundBracket Statement
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    EndOfStatement       shift, and go to state 57
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    ExpressionStatement       go to state 158
+    ConditionalExpression     go to state 71
+    Expression                go to state 72
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 104
+
+   84 IterationStatement: WHILE OpeningRoundBracket . Expression ClosingRoundBracket Statement
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    ConditionalExpression     go to state 71
+    Expression                go to state 159
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 105
+
+   82 JumpStatement: RETURN JumpStatement_a .
+
+    $default  reduce using rule 82 (JumpStatement)
+
+
+state 106
+
+   83 JumpStatement_a: Expression . EndOfStatement
+
+    EndOfStatement  shift, and go to state 160
+
+
+state 107
+
+   79 SelectionStatement: SWITCH OpeningRoundBracket . Expression $@7 ClosingRoundBracket Statement
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    ConditionalExpression     go to state 71
+    Expression                go to state 161
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 108
+
+  145 PrimaryExpression: OpeningRoundBracket Expression . ClosingRoundBracket
+
+    ClosingRoundBracket  shift, and go to state 162
+
+
+state 109
+
+  127 UnaryExpression: Increment UnaryExpression .
+
+    $default  reduce using rule 127 (UnaryExpression)
+
+
+state 110
+
+  128 UnaryExpression: Decrement UnaryExpression .
+
+    $default  reduce using rule 128 (UnaryExpression)
+
+
+state 111
+
+   59 CompoundStatement: OpeningBraces DeclarationList ClosingBraces .
+
+    $default  reduce using rule 59 (CompoundStatement)
+
+
+state 112
+
+   60 CompoundStatement: OpeningBraces DeclarationList StatementList . ClosingBraces
+
+    ClosingBraces  shift, and go to state 163
+
+
+state 113
+
+   58 CompoundStatement: OpeningBraces StatementList ClosingBraces .
+
+    $default  reduce using rule 58 (CompoundStatement)
+
+
+state 114
+
+   61 StatementList: Statement StatementList_a .
+
+    $default  reduce using rule 61 (StatementList)
+
+
+state 115
+
+   63 StatementList_a: Statement . StatementList_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    BREAK                shift, and go to state 47
+    CASE                 shift, and go to state 48
+    CONTINUE             shift, and go to state 49
+    DEFAULT              shift, and go to state 50
+    DO                   shift, and go to state 51
+    IF                   shift, and go to state 52
+    FOR                  shift, and go to state 53
+    WHILE                shift, and go to state 54
+    RETURN               shift, and go to state 55
+    SWITCH               shift, and go to state 56
+    EndOfStatement       shift, and go to state 57
+    OpeningBraces        shift, and go to state 25
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    $default  reduce using rule 62 (StatementList_a)
+
+    CompoundStatement         go to state 63
+    StatementList_a           go to state 164
+    Statement                 go to state 115
+    LabeledStatement          go to state 66
+    ExpressionStatement       go to state 67
+    SelectionStatement        go to state 68
+    JumpStatement             go to state 69
+    IterationStatement        go to state 70
+    ConditionalExpression     go to state 71
+    Expression                go to state 72
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 116
+
+   74 ExpressionStatement: Expression EndOfStatement .
+
+    $default  reduce using rule 74 (ExpressionStatement)
+
+
+state 117
+
+   94 Expression_a: Comma . AssignmentExpression Expression_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    ConditionalExpression     go to state 71
+    AssignmentExpression      go to state 165
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 118
+
+   92 Expression: AssignmentExpression Expression_a .
+
+    $default  reduce using rule 92 (Expression)
+
+
+state 119
+
+   91 ConditionalExpression_a: ConditionalOperator . Expression $@8 Colon ConditionalExpression
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    ConditionalExpression     go to state 71
+    Expression                go to state 166
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 120
+
+   88 ConditionalExpression: EqualityExpression ConditionalExpression_a .
+
+    $default  reduce using rule 88 (ConditionalExpression)
+
+
+state 121
+
+  101 EqualityExpression_a: IsEqualTo . RelationalExpression EqualityExpression_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    RelationalExpression      go to state 167
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 168
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 122
+
+  102 EqualityExpression_a: NotEqualTo . RelationalExpression EqualityExpression_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    RelationalExpression      go to state 169
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 168
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 123
+
+   99 EqualityExpression: RelationalExpression EqualityExpression_a .
+
+    $default  reduce using rule 99 (EqualityExpression)
+
+
+state 124
+
+  105 RelationalExpression_a: LessThan . AdditiveExpression RelationalExpression_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    AdditiveExpression        go to state 170
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 168
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 125
+
+  106 RelationalExpression_a: GreaterThan . AdditiveExpression RelationalExpression_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    AdditiveExpression        go to state 171
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 168
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 126
+
+  107 RelationalExpression_a: LessThanEqualTo . AdditiveExpression RelationalExpression_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    AdditiveExpression        go to state 172
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 168
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 127
+
+  108 RelationalExpression_a: GreaterThanEqualTo . AdditiveExpression RelationalExpression_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    AdditiveExpression        go to state 173
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 168
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 128
+
+  103 RelationalExpression: AdditiveExpression RelationalExpression_a .
+
+    $default  reduce using rule 103 (RelationalExpression)
+
+
+state 129
+
+  112 AdditiveExpression_a: Subtract . MultiplicativeExpression AdditiveExpression_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    MultiplicativeExpression  go to state 174
+    Constant                  go to state 78
+    UnaryExpression           go to state 168
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 130
+
+  111 AdditiveExpression_a: Add . MultiplicativeExpression AdditiveExpression_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    MultiplicativeExpression  go to state 175
+    Constant                  go to state 78
+    UnaryExpression           go to state 168
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 131
+
+  109 AdditiveExpression: MultiplicativeExpression AdditiveExpression_a .
+
+    $default  reduce using rule 109 (AdditiveExpression)
+
+
+state 132
+
+  115 MultiplicativeExpression_a: Multiply . UnaryExpression MultiplicativeExpression_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    Constant           go to state 78
+    UnaryExpression    go to state 176
+    PostFixExpression  go to state 80
+    PrimaryExpression  go to state 81
+
+
+state 133
+
+  116 MultiplicativeExpression_a: Divide . UnaryExpression MultiplicativeExpression_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    Constant           go to state 78
+    UnaryExpression    go to state 177
+    PostFixExpression  go to state 80
+    PrimaryExpression  go to state 81
+
+
+state 134
+
+  117 MultiplicativeExpression_a: Modulus . UnaryExpression MultiplicativeExpression_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    Constant           go to state 78
+    UnaryExpression    go to state 178
+    PostFixExpression  go to state 80
+    PrimaryExpression  go to state 81
+
+
+state 135
+
+   98 AssignmentExpression: UnaryExpression $@9 . AssignmentOperator $@10 AssignmentExpression
+
+    Assign             shift, and go to state 179
+    AddAndAssign       shift, and go to state 180
+    MultiplyAndAssign  shift, and go to state 181
+    DivideAndAssign    shift, and go to state 182
+    SubtractAndAssign  shift, and go to state 183
+
+    AssignmentOperator  go to state 184
+
+
+state 136
+
+  113 MultiplicativeExpression: UnaryExpression MultiplicativeExpression_a .
+
+    $default  reduce using rule 113 (MultiplicativeExpression)
+
+
+state 137
+
+  135 PostFixExpression_a: OpeningRoundBracket . PostFixExpression_b
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    ClosingRoundBracket  shift, and go to state 185
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    ConditionalExpression     go to state 71
+    AssignmentExpression      go to state 186
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PostFixExpression_b       go to state 187
+    ArgumentExpressionList    go to state 188
+    PrimaryExpression         go to state 81
+
+
+state 138
+
+  136 PostFixExpression_a: Increment . PostFixExpression_a
+
+    OpeningRoundBracket  shift, and go to state 137
+    Increment            shift, and go to state 138
+    Decrement            shift, and go to state 139
+
+    OpeningSquareBracket  reduce using rule 131 ($@11)
+    $default              reduce using rule 130 (PostFixExpression_a)
+
+    PostFixExpression_a  go to state 189
+    $@11                 go to state 141
+
+
+state 139
+
+  137 PostFixExpression_a: Decrement . PostFixExpression_a
+
+    OpeningRoundBracket  shift, and go to state 137
+    Increment            shift, and go to state 138
+    Decrement            shift, and go to state 139
+
+    OpeningSquareBracket  reduce using rule 131 ($@11)
+    $default              reduce using rule 130 (PostFixExpression_a)
+
+    PostFixExpression_a  go to state 190
+    $@11                 go to state 141
+
+
+state 140
+
+  129 PostFixExpression: PrimaryExpression PostFixExpression_a .
+
+    $default  reduce using rule 129 (PostFixExpression)
+
+
+state 141
+
+  134 PostFixExpression_a: $@11 . OpeningSquareBracket Expression $@12 ClosingSquareBracket $@13 PostFixExpression_a
+
+    OpeningSquareBracket  shift, and go to state 191
+
+
+state 142
+
+   37 DeclarationList_a: Declaration DeclarationList_a .
+
+    $default  reduce using rule 37 (DeclarationList_a)
+
+
+state 143
+
+   31 DirectDeclarator_c: Integer ClosingSquareBracket . $@4 DirectDeclarator_a
+
+    $default  reduce using rule 30 ($@4)
+
+    $@4  go to state 192
+
+
+state 144
+
+   29 DirectDeclarator_c: ClosingSquareBracket DirectDeclarator_a .
+
+    $default  reduce using rule 29 (DirectDeclarator_c)
+
+
+state 145
+
+   28 DirectDeclarator_b: ClosingRoundBracket . DirectDeclarator_a
+
+    OpeningSquareBracket  shift, and go to state 32
+
+    OpeningRoundBracket  reduce using rule 23 ($@3)
+    $default             reduce using rule 22 (DirectDeclarator_a)
+
+    DirectDeclarator_a  go to state 193
+    $@3                 go to state 34
+
+
+state 146
+
+   54 ParameterDeclaration: TypeSpecifier . $@6 ParameterDeclaration_a
+
+    $default  reduce using rule 53 ($@6)
+
+    $@6  go to state 194
+
+
+state 147
+
+   26 DirectDeclarator_b: Declarator . ClosingRoundBracket DirectDeclarator_a
+
+    ClosingRoundBracket  shift, and go to state 195
+
+
+state 148
+
+   24 DirectDeclarator_a: $@3 OpeningRoundBracket DirectDeclarator_b .
+
+    $default  reduce using rule 24 (DirectDeclarator_a)
+
+
+state 149
+
+   27 DirectDeclarator_b: ParameterList . ClosingRoundBracket DirectDeclarator_a
+
+    ClosingRoundBracket  shift, and go to state 196
+
+
+state 150
+
+   50 ParameterList: ParameterDeclaration . ParameterList_a
+
+    Comma  shift, and go to state 197
+
+    $default  reduce using rule 51 (ParameterList_a)
+
+    ParameterList_a  go to state 198
+
+
+state 151
+
+   47 InitializerList: Initializer .
+
+    $default  reduce using rule 47 (InitializerList)
+
+
+state 152
+
+   46 Initializer: OpeningBraces InitializerList . ClosingBraces
+   49 InitializerList: InitializerList . Comma $@5 Initializer
+
+    Comma          shift, and go to state 199
+    ClosingBraces  shift, and go to state 200
+
+
+state 153
+
+   70 LabeledStatement: CASE Integer Colon . Statement
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    BREAK                shift, and go to state 47
+    CASE                 shift, and go to state 48
+    CONTINUE             shift, and go to state 49
+    DEFAULT              shift, and go to state 50
+    DO                   shift, and go to state 51
+    IF                   shift, and go to state 52
+    FOR                  shift, and go to state 53
+    WHILE                shift, and go to state 54
+    RETURN               shift, and go to state 55
+    SWITCH               shift, and go to state 56
+    EndOfStatement       shift, and go to state 57
+    OpeningBraces        shift, and go to state 25
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    CompoundStatement         go to state 63
+    Statement                 go to state 201
+    LabeledStatement          go to state 66
+    ExpressionStatement       go to state 67
+    SelectionStatement        go to state 68
+    JumpStatement             go to state 69
+    IterationStatement        go to state 70
+    ConditionalExpression     go to state 71
+    Expression                go to state 72
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 154
+
+   71 LabeledStatement: CASE Character Colon . Statement
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    BREAK                shift, and go to state 47
+    CASE                 shift, and go to state 48
+    CONTINUE             shift, and go to state 49
+    DEFAULT              shift, and go to state 50
+    DO                   shift, and go to state 51
+    IF                   shift, and go to state 52
+    FOR                  shift, and go to state 53
+    WHILE                shift, and go to state 54
+    RETURN               shift, and go to state 55
+    SWITCH               shift, and go to state 56
+    EndOfStatement       shift, and go to state 57
+    OpeningBraces        shift, and go to state 25
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    CompoundStatement         go to state 63
+    Statement                 go to state 202
+    LabeledStatement          go to state 66
+    ExpressionStatement       go to state 67
+    SelectionStatement        go to state 68
+    JumpStatement             go to state 69
+    IterationStatement        go to state 70
+    ConditionalExpression     go to state 71
+    Expression                go to state 72
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 155
+
+   72 LabeledStatement: DEFAULT Colon Statement .
+
+    $default  reduce using rule 72 (LabeledStatement)
+
+
+state 156
+
+   85 IterationStatement: DO Statement WHILE . OpeningRoundBracket Expression ClosingRoundBracket EndOfStatement
+
+    OpeningRoundBracket  shift, and go to state 203
+
+
+state 157
+
+   75 SelectionStatement: IF OpeningRoundBracket Expression . ClosingRoundBracket Statement SelectionStatement_a
+
+    ClosingRoundBracket  shift, and go to state 204
+
+
+state 158
+
+   86 IterationStatement: FOR OpeningRoundBracket ExpressionStatement . ExpressionStatement ClosingRoundBracket Statement
+   87                   | FOR OpeningRoundBracket ExpressionStatement . ExpressionStatement Expression ClosingRoundBracket Statement
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    EndOfStatement       shift, and go to state 57
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    ExpressionStatement       go to state 205
+    ConditionalExpression     go to state 71
+    Expression                go to state 72
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 159
+
+   84 IterationStatement: WHILE OpeningRoundBracket Expression . ClosingRoundBracket Statement
+
+    ClosingRoundBracket  shift, and go to state 206
+
+
+state 160
+
+   83 JumpStatement_a: Expression EndOfStatement .
+
+    $default  reduce using rule 83 (JumpStatement_a)
+
+
+state 161
+
+   79 SelectionStatement: SWITCH OpeningRoundBracket Expression . $@7 ClosingRoundBracket Statement
+
+    $default  reduce using rule 78 ($@7)
+
+    $@7  go to state 207
+
+
+state 162
+
+  145 PrimaryExpression: OpeningRoundBracket Expression ClosingRoundBracket .
+
+    $default  reduce using rule 145 (PrimaryExpression)
+
+
+state 163
+
+   60 CompoundStatement: OpeningBraces DeclarationList StatementList ClosingBraces .
+
+    $default  reduce using rule 60 (CompoundStatement)
+
+
+state 164
+
+   63 StatementList_a: Statement StatementList_a .
+
+    $default  reduce using rule 63 (StatementList_a)
+
+
+state 165
+
+   94 Expression_a: Comma AssignmentExpression . Expression_a
+
+    Comma  shift, and go to state 117
+
+    $default  reduce using rule 93 (Expression_a)
+
+    Expression_a  go to state 208
+
+
+state 166
+
+   91 ConditionalExpression_a: ConditionalOperator Expression . $@8 Colon ConditionalExpression
+
+    $default  reduce using rule 90 ($@8)
+
+    $@8  go to state 209
+
+
+state 167
+
+  101 EqualityExpression_a: IsEqualTo RelationalExpression . EqualityExpression_a
+
+    IsEqualTo   shift, and go to state 121
+    NotEqualTo  shift, and go to state 122
+
+    $default  reduce using rule 100 (EqualityExpression_a)
+
+    EqualityExpression_a  go to state 210
+
+
+state 168
+
+  113 MultiplicativeExpression: UnaryExpression . MultiplicativeExpression_a
+
+    Multiply  shift, and go to state 132
+    Divide    shift, and go to state 133
+    Modulus   shift, and go to state 134
+
+    $default  reduce using rule 114 (MultiplicativeExpression_a)
+
+    MultiplicativeExpression_a  go to state 136
+
+
+state 169
+
+  102 EqualityExpression_a: NotEqualTo RelationalExpression . EqualityExpression_a
+
+    IsEqualTo   shift, and go to state 121
+    NotEqualTo  shift, and go to state 122
+
+    $default  reduce using rule 100 (EqualityExpression_a)
+
+    EqualityExpression_a  go to state 211
+
+
+state 170
+
+  105 RelationalExpression_a: LessThan AdditiveExpression . RelationalExpression_a
+
+    LessThan            shift, and go to state 124
+    GreaterThan         shift, and go to state 125
+    LessThanEqualTo     shift, and go to state 126
+    GreaterThanEqualTo  shift, and go to state 127
+
+    $default  reduce using rule 104 (RelationalExpression_a)
+
+    RelationalExpression_a  go to state 212
+
+
+state 171
+
+  106 RelationalExpression_a: GreaterThan AdditiveExpression . RelationalExpression_a
+
+    LessThan            shift, and go to state 124
+    GreaterThan         shift, and go to state 125
+    LessThanEqualTo     shift, and go to state 126
+    GreaterThanEqualTo  shift, and go to state 127
+
+    $default  reduce using rule 104 (RelationalExpression_a)
+
+    RelationalExpression_a  go to state 213
+
+
+state 172
+
+  107 RelationalExpression_a: LessThanEqualTo AdditiveExpression . RelationalExpression_a
+
+    LessThan            shift, and go to state 124
+    GreaterThan         shift, and go to state 125
+    LessThanEqualTo     shift, and go to state 126
+    GreaterThanEqualTo  shift, and go to state 127
+
+    $default  reduce using rule 104 (RelationalExpression_a)
+
+    RelationalExpression_a  go to state 214
+
+
+state 173
+
+  108 RelationalExpression_a: GreaterThanEqualTo AdditiveExpression . RelationalExpression_a
+
+    LessThan            shift, and go to state 124
+    GreaterThan         shift, and go to state 125
+    LessThanEqualTo     shift, and go to state 126
+    GreaterThanEqualTo  shift, and go to state 127
+
+    $default  reduce using rule 104 (RelationalExpression_a)
+
+    RelationalExpression_a  go to state 215
+
+
+state 174
+
+  112 AdditiveExpression_a: Subtract MultiplicativeExpression . AdditiveExpression_a
+
+    Subtract  shift, and go to state 129
+    Add       shift, and go to state 130
+
+    $default  reduce using rule 110 (AdditiveExpression_a)
+
+    AdditiveExpression_a  go to state 216
+
+
+state 175
+
+  111 AdditiveExpression_a: Add MultiplicativeExpression . AdditiveExpression_a
+
+    Subtract  shift, and go to state 129
+    Add       shift, and go to state 130
+
+    $default  reduce using rule 110 (AdditiveExpression_a)
+
+    AdditiveExpression_a  go to state 217
+
+
+state 176
+
+  115 MultiplicativeExpression_a: Multiply UnaryExpression . MultiplicativeExpression_a
+
+    Multiply  shift, and go to state 132
+    Divide    shift, and go to state 133
+    Modulus   shift, and go to state 134
+
+    $default  reduce using rule 114 (MultiplicativeExpression_a)
+
+    MultiplicativeExpression_a  go to state 218
+
+
+state 177
+
+  116 MultiplicativeExpression_a: Divide UnaryExpression . MultiplicativeExpression_a
+
+    Multiply  shift, and go to state 132
+    Divide    shift, and go to state 133
+    Modulus   shift, and go to state 134
+
+    $default  reduce using rule 114 (MultiplicativeExpression_a)
+
+    MultiplicativeExpression_a  go to state 219
+
+
+state 178
+
+  117 MultiplicativeExpression_a: Modulus UnaryExpression . MultiplicativeExpression_a
+
+    Multiply  shift, and go to state 132
+    Divide    shift, and go to state 133
+    Modulus   shift, and go to state 134
+
+    $default  reduce using rule 114 (MultiplicativeExpression_a)
+
+    MultiplicativeExpression_a  go to state 220
+
+
+state 179
+
+  118 AssignmentOperator: Assign .
+
+    $default  reduce using rule 118 (AssignmentOperator)
+
+
+state 180
+
+  119 AssignmentOperator: AddAndAssign .
+
+    $default  reduce using rule 119 (AssignmentOperator)
+
+
+state 181
+
+  121 AssignmentOperator: MultiplyAndAssign .
+
+    $default  reduce using rule 121 (AssignmentOperator)
+
+
+state 182
+
+  122 AssignmentOperator: DivideAndAssign .
+
+    $default  reduce using rule 122 (AssignmentOperator)
+
+
+state 183
+
+  120 AssignmentOperator: SubtractAndAssign .
+
+    $default  reduce using rule 120 (AssignmentOperator)
+
+
+state 184
+
+   98 AssignmentExpression: UnaryExpression $@9 AssignmentOperator . $@10 AssignmentExpression
+
+    $default  reduce using rule 97 ($@10)
+
+    $@10  go to state 221
+
+
+state 185
+
+  139 PostFixExpression_b: ClosingRoundBracket . PostFixExpression_a
+
+    OpeningRoundBracket  shift, and go to state 137
+    Increment            shift, and go to state 138
+    Decrement            shift, and go to state 139
+
+    OpeningSquareBracket  reduce using rule 131 ($@11)
+    $default              reduce using rule 130 (PostFixExpression_a)
+
+    PostFixExpression_a  go to state 222
+    $@11                 go to state 141
+
+
+state 186
+
+  140 ArgumentExpressionList: AssignmentExpression .
+
+    $default  reduce using rule 140 (ArgumentExpressionList)
+
+
+state 187
+
+  135 PostFixExpression_a: OpeningRoundBracket PostFixExpression_b .
+
+    $default  reduce using rule 135 (PostFixExpression_a)
+
+
+state 188
+
+  138 PostFixExpression_b: ArgumentExpressionList . ClosingRoundBracket PostFixExpression_a
+  141 ArgumentExpressionList: ArgumentExpressionList . Comma AssignmentExpression
+
+    Comma                shift, and go to state 223
+    ClosingRoundBracket  shift, and go to state 224
+
+
+state 189
+
+  136 PostFixExpression_a: Increment PostFixExpression_a .
+
+    $default  reduce using rule 136 (PostFixExpression_a)
+
+
+state 190
+
+  137 PostFixExpression_a: Decrement PostFixExpression_a .
+
+    $default  reduce using rule 137 (PostFixExpression_a)
+
+
+state 191
+
+  134 PostFixExpression_a: $@11 OpeningSquareBracket . Expression $@12 ClosingSquareBracket $@13 PostFixExpression_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    ConditionalExpression     go to state 71
+    Expression                go to state 225
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 192
+
+   31 DirectDeclarator_c: Integer ClosingSquareBracket $@4 . DirectDeclarator_a
+
+    OpeningSquareBracket  shift, and go to state 32
+
+    OpeningRoundBracket  reduce using rule 23 ($@3)
+    $default             reduce using rule 22 (DirectDeclarator_a)
+
+    DirectDeclarator_a  go to state 226
+    $@3                 go to state 34
+
+
+state 193
+
+   28 DirectDeclarator_b: ClosingRoundBracket DirectDeclarator_a .
+
+    $default  reduce using rule 28 (DirectDeclarator_b)
+
+
+state 194
+
+   54 ParameterDeclaration: TypeSpecifier $@6 . ParameterDeclaration_a
+
+    Identifier  shift, and go to state 1
+    Multiply    shift, and go to state 6
+
+    $default  reduce using rule 55 (ParameterDeclaration_a)
+
+    Declarator              go to state 227
+    DirectDeclarator        go to state 12
+    Pointer                 go to state 13
+    ParameterDeclaration_a  go to state 228
+
+
+state 195
+
+   26 DirectDeclarator_b: Declarator ClosingRoundBracket . DirectDeclarator_a
+
+    OpeningSquareBracket  shift, and go to state 32
+
+    OpeningRoundBracket  reduce using rule 23 ($@3)
+    $default             reduce using rule 22 (DirectDeclarator_a)
+
+    DirectDeclarator_a  go to state 229
+    $@3                 go to state 34
+
+
+state 196
+
+   27 DirectDeclarator_b: ParameterList ClosingRoundBracket . DirectDeclarator_a
+
+    OpeningSquareBracket  shift, and go to state 32
+
+    OpeningRoundBracket  reduce using rule 23 ($@3)
+    $default             reduce using rule 22 (DirectDeclarator_a)
+
+    DirectDeclarator_a  go to state 230
+    $@3                 go to state 34
+
+
+state 197
+
+   52 ParameterList_a: Comma . ParameterDeclaration ParameterList_a
+
+    INT    shift, and go to state 2
+    VOID   shift, and go to state 3
+    CHAR   shift, and go to state 4
+    FLOAT  shift, and go to state 5
+
+    TypeSpecifier         go to state 146
+    ParameterDeclaration  go to state 231
+
+
+state 198
+
+   50 ParameterList: ParameterDeclaration ParameterList_a .
+
+    $default  reduce using rule 50 (ParameterList)
+
+
+state 199
+
+   49 InitializerList: InitializerList Comma . $@5 Initializer
+
+    $default  reduce using rule 48 ($@5)
+
+    $@5  go to state 232
+
+
+state 200
+
+   46 Initializer: OpeningBraces InitializerList ClosingBraces .
+
+    $default  reduce using rule 46 (Initializer)
+
+
+state 201
+
+   70 LabeledStatement: CASE Integer Colon Statement .
+
+    $default  reduce using rule 70 (LabeledStatement)
+
+
+state 202
+
+   71 LabeledStatement: CASE Character Colon Statement .
+
+    $default  reduce using rule 71 (LabeledStatement)
+
+
+state 203
+
+   85 IterationStatement: DO Statement WHILE OpeningRoundBracket . Expression ClosingRoundBracket EndOfStatement
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    ConditionalExpression     go to state 71
+    Expression                go to state 233
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 204
+
+   75 SelectionStatement: IF OpeningRoundBracket Expression ClosingRoundBracket . Statement SelectionStatement_a
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    BREAK                shift, and go to state 47
+    CASE                 shift, and go to state 48
+    CONTINUE             shift, and go to state 49
+    DEFAULT              shift, and go to state 50
+    DO                   shift, and go to state 51
+    IF                   shift, and go to state 52
+    FOR                  shift, and go to state 53
+    WHILE                shift, and go to state 54
+    RETURN               shift, and go to state 55
+    SWITCH               shift, and go to state 56
+    EndOfStatement       shift, and go to state 57
+    OpeningBraces        shift, and go to state 25
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    CompoundStatement         go to state 63
+    Statement                 go to state 234
+    LabeledStatement          go to state 66
+    ExpressionStatement       go to state 67
+    SelectionStatement        go to state 68
+    JumpStatement             go to state 69
+    IterationStatement        go to state 70
+    ConditionalExpression     go to state 71
+    Expression                go to state 72
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 205
+
+   86 IterationStatement: FOR OpeningRoundBracket ExpressionStatement ExpressionStatement . ClosingRoundBracket Statement
+   87                   | FOR OpeningRoundBracket ExpressionStatement ExpressionStatement . Expression ClosingRoundBracket Statement
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    ClosingRoundBracket  shift, and go to state 235
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    ConditionalExpression     go to state 71
+    Expression                go to state 236
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 206
+
+   84 IterationStatement: WHILE OpeningRoundBracket Expression ClosingRoundBracket . Statement
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    BREAK                shift, and go to state 47
+    CASE                 shift, and go to state 48
+    CONTINUE             shift, and go to state 49
+    DEFAULT              shift, and go to state 50
+    DO                   shift, and go to state 51
+    IF                   shift, and go to state 52
+    FOR                  shift, and go to state 53
+    WHILE                shift, and go to state 54
+    RETURN               shift, and go to state 55
+    SWITCH               shift, and go to state 56
+    EndOfStatement       shift, and go to state 57
+    OpeningBraces        shift, and go to state 25
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    CompoundStatement         go to state 63
+    Statement                 go to state 237
+    LabeledStatement          go to state 66
+    ExpressionStatement       go to state 67
+    SelectionStatement        go to state 68
+    JumpStatement             go to state 69
+    IterationStatement        go to state 70
+    ConditionalExpression     go to state 71
+    Expression                go to state 72
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 207
+
+   79 SelectionStatement: SWITCH OpeningRoundBracket Expression $@7 . ClosingRoundBracket Statement
+
+    ClosingRoundBracket  shift, and go to state 238
+
+
+state 208
+
+   94 Expression_a: Comma AssignmentExpression Expression_a .
+
+    $default  reduce using rule 94 (Expression_a)
+
+
+state 209
+
+   91 ConditionalExpression_a: ConditionalOperator Expression $@8 . Colon ConditionalExpression
+
+    Colon  shift, and go to state 239
+
+
+state 210
+
+  101 EqualityExpression_a: IsEqualTo RelationalExpression EqualityExpression_a .
+
+    $default  reduce using rule 101 (EqualityExpression_a)
+
+
+state 211
+
+  102 EqualityExpression_a: NotEqualTo RelationalExpression EqualityExpression_a .
+
+    $default  reduce using rule 102 (EqualityExpression_a)
+
+
+state 212
+
+  105 RelationalExpression_a: LessThan AdditiveExpression RelationalExpression_a .
+
+    $default  reduce using rule 105 (RelationalExpression_a)
+
+
+state 213
+
+  106 RelationalExpression_a: GreaterThan AdditiveExpression RelationalExpression_a .
+
+    $default  reduce using rule 106 (RelationalExpression_a)
+
+
+state 214
+
+  107 RelationalExpression_a: LessThanEqualTo AdditiveExpression RelationalExpression_a .
+
+    $default  reduce using rule 107 (RelationalExpression_a)
+
+
+state 215
+
+  108 RelationalExpression_a: GreaterThanEqualTo AdditiveExpression RelationalExpression_a .
+
+    $default  reduce using rule 108 (RelationalExpression_a)
+
+
+state 216
+
+  112 AdditiveExpression_a: Subtract MultiplicativeExpression AdditiveExpression_a .
+
+    $default  reduce using rule 112 (AdditiveExpression_a)
+
+
+state 217
+
+  111 AdditiveExpression_a: Add MultiplicativeExpression AdditiveExpression_a .
+
+    $default  reduce using rule 111 (AdditiveExpression_a)
+
+
+state 218
+
+  115 MultiplicativeExpression_a: Multiply UnaryExpression MultiplicativeExpression_a .
+
+    $default  reduce using rule 115 (MultiplicativeExpression_a)
+
+
+state 219
+
+  116 MultiplicativeExpression_a: Divide UnaryExpression MultiplicativeExpression_a .
+
+    $default  reduce using rule 116 (MultiplicativeExpression_a)
+
+
+state 220
+
+  117 MultiplicativeExpression_a: Modulus UnaryExpression MultiplicativeExpression_a .
+
+    $default  reduce using rule 117 (MultiplicativeExpression_a)
+
+
+state 221
+
+   98 AssignmentExpression: UnaryExpression $@9 AssignmentOperator $@10 . AssignmentExpression
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    ConditionalExpression     go to state 71
+    AssignmentExpression      go to state 240
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 222
+
+  139 PostFixExpression_b: ClosingRoundBracket PostFixExpression_a .
+
+    $default  reduce using rule 139 (PostFixExpression_b)
+
+
+state 223
+
+  141 ArgumentExpressionList: ArgumentExpressionList Comma . AssignmentExpression
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    ConditionalExpression     go to state 71
+    AssignmentExpression      go to state 241
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 224
+
+  138 PostFixExpression_b: ArgumentExpressionList ClosingRoundBracket . PostFixExpression_a
+
+    OpeningRoundBracket  shift, and go to state 137
+    Increment            shift, and go to state 138
+    Decrement            shift, and go to state 139
+
+    OpeningSquareBracket  reduce using rule 131 ($@11)
+    $default              reduce using rule 130 (PostFixExpression_a)
+
+    PostFixExpression_a  go to state 242
+    $@11                 go to state 141
+
+
+state 225
+
+  134 PostFixExpression_a: $@11 OpeningSquareBracket Expression . $@12 ClosingSquareBracket $@13 PostFixExpression_a
+
+    $default  reduce using rule 132 ($@12)
+
+    $@12  go to state 243
+
+
+state 226
+
+   31 DirectDeclarator_c: Integer ClosingSquareBracket $@4 DirectDeclarator_a .
+
+    $default  reduce using rule 31 (DirectDeclarator_c)
+
+
+state 227
+
+   56 ParameterDeclaration_a: Declarator .
+
+    $default  reduce using rule 56 (ParameterDeclaration_a)
+
+
+state 228
+
+   54 ParameterDeclaration: TypeSpecifier $@6 ParameterDeclaration_a .
+
+    $default  reduce using rule 54 (ParameterDeclaration)
+
+
+state 229
+
+   26 DirectDeclarator_b: Declarator ClosingRoundBracket DirectDeclarator_a .
+
+    $default  reduce using rule 26 (DirectDeclarator_b)
+
+
+state 230
+
+   27 DirectDeclarator_b: ParameterList ClosingRoundBracket DirectDeclarator_a .
+
+    $default  reduce using rule 27 (DirectDeclarator_b)
+
+
+state 231
+
+   52 ParameterList_a: Comma ParameterDeclaration . ParameterList_a
+
+    Comma  shift, and go to state 197
+
+    $default  reduce using rule 51 (ParameterList_a)
+
+    ParameterList_a  go to state 244
+
+
+state 232
+
+   49 InitializerList: InitializerList Comma $@5 . Initializer
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningBraces        shift, and go to state 91
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    Initializer               go to state 245
+    ConditionalExpression     go to state 71
+    AssignmentExpression      go to state 93
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 233
+
+   85 IterationStatement: DO Statement WHILE OpeningRoundBracket Expression . ClosingRoundBracket EndOfStatement
+
+    ClosingRoundBracket  shift, and go to state 246
+
+
+state 234
+
+   75 SelectionStatement: IF OpeningRoundBracket Expression ClosingRoundBracket Statement . SelectionStatement_a
+
+    ELSE  shift, and go to state 247
+
+    ELSE      [reduce using rule 76 (SelectionStatement_a)]
+    $default  reduce using rule 76 (SelectionStatement_a)
+
+    SelectionStatement_a  go to state 248
+
+
+state 235
+
+   86 IterationStatement: FOR OpeningRoundBracket ExpressionStatement ExpressionStatement ClosingRoundBracket . Statement
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    BREAK                shift, and go to state 47
+    CASE                 shift, and go to state 48
+    CONTINUE             shift, and go to state 49
+    DEFAULT              shift, and go to state 50
+    DO                   shift, and go to state 51
+    IF                   shift, and go to state 52
+    FOR                  shift, and go to state 53
+    WHILE                shift, and go to state 54
+    RETURN               shift, and go to state 55
+    SWITCH               shift, and go to state 56
+    EndOfStatement       shift, and go to state 57
+    OpeningBraces        shift, and go to state 25
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    CompoundStatement         go to state 63
+    Statement                 go to state 249
+    LabeledStatement          go to state 66
+    ExpressionStatement       go to state 67
+    SelectionStatement        go to state 68
+    JumpStatement             go to state 69
+    IterationStatement        go to state 70
+    ConditionalExpression     go to state 71
+    Expression                go to state 72
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 236
+
+   87 IterationStatement: FOR OpeningRoundBracket ExpressionStatement ExpressionStatement Expression . ClosingRoundBracket Statement
+
+    ClosingRoundBracket  shift, and go to state 250
+
+
+state 237
+
+   84 IterationStatement: WHILE OpeningRoundBracket Expression ClosingRoundBracket Statement .
+
+    $default  reduce using rule 84 (IterationStatement)
+
+
+state 238
+
+   79 SelectionStatement: SWITCH OpeningRoundBracket Expression $@7 ClosingRoundBracket . Statement
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    BREAK                shift, and go to state 47
+    CASE                 shift, and go to state 48
+    CONTINUE             shift, and go to state 49
+    DEFAULT              shift, and go to state 50
+    DO                   shift, and go to state 51
+    IF                   shift, and go to state 52
+    FOR                  shift, and go to state 53
+    WHILE                shift, and go to state 54
+    RETURN               shift, and go to state 55
+    SWITCH               shift, and go to state 56
+    EndOfStatement       shift, and go to state 57
+    OpeningBraces        shift, and go to state 25
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    CompoundStatement         go to state 63
+    Statement                 go to state 251
+    LabeledStatement          go to state 66
+    ExpressionStatement       go to state 67
+    SelectionStatement        go to state 68
+    JumpStatement             go to state 69
+    IterationStatement        go to state 70
+    ConditionalExpression     go to state 71
+    Expression                go to state 72
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 239
+
+   91 ConditionalExpression_a: ConditionalOperator Expression $@8 Colon . ConditionalExpression
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    ConditionalExpression     go to state 252
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 168
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 240
+
+   98 AssignmentExpression: UnaryExpression $@9 AssignmentOperator $@10 AssignmentExpression .
+
+    $default  reduce using rule 98 (AssignmentExpression)
+
+
+state 241
+
+  141 ArgumentExpressionList: ArgumentExpressionList Comma AssignmentExpression .
+
+    $default  reduce using rule 141 (ArgumentExpressionList)
+
+
+state 242
+
+  138 PostFixExpression_b: ArgumentExpressionList ClosingRoundBracket PostFixExpression_a .
+
+    $default  reduce using rule 138 (PostFixExpression_b)
+
+
+state 243
+
+  134 PostFixExpression_a: $@11 OpeningSquareBracket Expression $@12 . ClosingSquareBracket $@13 PostFixExpression_a
+
+    ClosingSquareBracket  shift, and go to state 253
+
+
+state 244
+
+   52 ParameterList_a: Comma ParameterDeclaration ParameterList_a .
+
+    $default  reduce using rule 52 (ParameterList_a)
+
+
+state 245
+
+   49 InitializerList: InitializerList Comma $@5 Initializer .
+
+    $default  reduce using rule 49 (InitializerList)
+
+
+state 246
+
+   85 IterationStatement: DO Statement WHILE OpeningRoundBracket Expression ClosingRoundBracket . EndOfStatement
+
+    EndOfStatement  shift, and go to state 254
+
+
+state 247
+
+   77 SelectionStatement_a: ELSE . Statement
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    BREAK                shift, and go to state 47
+    CASE                 shift, and go to state 48
+    CONTINUE             shift, and go to state 49
+    DEFAULT              shift, and go to state 50
+    DO                   shift, and go to state 51
+    IF                   shift, and go to state 52
+    FOR                  shift, and go to state 53
+    WHILE                shift, and go to state 54
+    RETURN               shift, and go to state 55
+    SWITCH               shift, and go to state 56
+    EndOfStatement       shift, and go to state 57
+    OpeningBraces        shift, and go to state 25
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    CompoundStatement         go to state 63
+    Statement                 go to state 255
+    LabeledStatement          go to state 66
+    ExpressionStatement       go to state 67
+    SelectionStatement        go to state 68
+    JumpStatement             go to state 69
+    IterationStatement        go to state 70
+    ConditionalExpression     go to state 71
+    Expression                go to state 72
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 248
+
+   75 SelectionStatement: IF OpeningRoundBracket Expression ClosingRoundBracket Statement SelectionStatement_a .
+
+    $default  reduce using rule 75 (SelectionStatement)
+
+
+state 249
+
+   86 IterationStatement: FOR OpeningRoundBracket ExpressionStatement ExpressionStatement ClosingRoundBracket Statement .
+
+    $default  reduce using rule 86 (IterationStatement)
+
+
+state 250
+
+   87 IterationStatement: FOR OpeningRoundBracket ExpressionStatement ExpressionStatement Expression ClosingRoundBracket . Statement
+
+    Identifier           shift, and go to state 42
+    Integer              shift, and go to state 43
+    Character            shift, and go to state 44
+    Real                 shift, and go to state 45
+    String               shift, and go to state 46
+    BREAK                shift, and go to state 47
+    CASE                 shift, and go to state 48
+    CONTINUE             shift, and go to state 49
+    DEFAULT              shift, and go to state 50
+    DO                   shift, and go to state 51
+    IF                   shift, and go to state 52
+    FOR                  shift, and go to state 53
+    WHILE                shift, and go to state 54
+    RETURN               shift, and go to state 55
+    SWITCH               shift, and go to state 56
+    EndOfStatement       shift, and go to state 57
+    OpeningBraces        shift, and go to state 25
+    OpeningRoundBracket  shift, and go to state 59
+    Increment            shift, and go to state 60
+    Decrement            shift, and go to state 61
+
+    CompoundStatement         go to state 63
+    Statement                 go to state 256
+    LabeledStatement          go to state 66
+    ExpressionStatement       go to state 67
+    SelectionStatement        go to state 68
+    JumpStatement             go to state 69
+    IterationStatement        go to state 70
+    ConditionalExpression     go to state 71
+    Expression                go to state 72
+    AssignmentExpression      go to state 73
+    EqualityExpression        go to state 74
+    RelationalExpression      go to state 75
+    AdditiveExpression        go to state 76
+    MultiplicativeExpression  go to state 77
+    Constant                  go to state 78
+    UnaryExpression           go to state 79
+    PostFixExpression         go to state 80
+    PrimaryExpression         go to state 81
+
+
+state 251
+
+   79 SelectionStatement: SWITCH OpeningRoundBracket Expression $@7 ClosingRoundBracket Statement .
+
+    $default  reduce using rule 79 (SelectionStatement)
+
+
+state 252
+
+   91 ConditionalExpression_a: ConditionalOperator Expression $@8 Colon ConditionalExpression .
+
+    $default  reduce using rule 91 (ConditionalExpression_a)
+
+
+state 253
+
+  134 PostFixExpression_a: $@11 OpeningSquareBracket Expression $@12 ClosingSquareBracket . $@13 PostFixExpression_a
+
+    $default  reduce using rule 133 ($@13)
+
+    $@13  go to state 257
+
+
+state 254
+
+   85 IterationStatement: DO Statement WHILE OpeningRoundBracket Expression ClosingRoundBracket EndOfStatement .
+
+    $default  reduce using rule 85 (IterationStatement)
+
+
+state 255
+
+   77 SelectionStatement_a: ELSE Statement .
+
+    $default  reduce using rule 77 (SelectionStatement_a)
+
+
+state 256
+
+   87 IterationStatement: FOR OpeningRoundBracket ExpressionStatement ExpressionStatement Expression ClosingRoundBracket Statement .
+
+    $default  reduce using rule 87 (IterationStatement)
+
+
+state 257
+
+  134 PostFixExpression_a: $@11 OpeningSquareBracket Expression $@12 ClosingSquareBracket $@13 . PostFixExpression_a
+
+    OpeningRoundBracket  shift, and go to state 137
+    Increment            shift, and go to state 138
+    Decrement            shift, and go to state 139
+
+    OpeningSquareBracket  reduce using rule 131 ($@11)
+    $default              reduce using rule 130 (PostFixExpression_a)
+
+    PostFixExpression_a  go to state 258
+    $@11                 go to state 141
+
+
+state 258
+
+  134 PostFixExpression_a: $@11 OpeningSquareBracket Expression $@12 ClosingSquareBracket $@13 PostFixExpression_a .
+
+    $default  reduce using rule 134 (PostFixExpression_a)

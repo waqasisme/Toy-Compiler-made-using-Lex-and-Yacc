@@ -1,0 +1,12 @@
+char a, A, b;
+void main (char d, int r)
+{
+
+int t = 3;
+char abc, a, b;
+int c, e[10], g[ ] = {1,2};
+t = 4;
+}
+float *f;
+
+

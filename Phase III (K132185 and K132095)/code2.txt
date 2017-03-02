@@ -1,0 +1,13 @@
+void main() {
+	int a, b;
+	float a[10];
+	char x,y;
+
+	a=something();
+	x=';
+
+	for (a=0; a<10; a++)
+	{
+		a[a]=a[a]+b;
+	}
+}

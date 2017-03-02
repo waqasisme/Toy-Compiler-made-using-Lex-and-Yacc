@@ -1,0 +1,27 @@
+int something(int a, int b, float c) {
+/* do something here */
+	a=a+b;
+	b=b+c;
+	return c;
+}
+
+void main() {
+	int c;
+	char a, b;
+	int d;
+
+	d=0;
+	c=something();
+	
+	while (c>0) {
+		/* something else *
+		c--;
+	}	
+
+	a=a+b;
+	c=c++;
+	
+	for (c=0; c<10; c=c+1) {
+		d=d+c
+	}
+}

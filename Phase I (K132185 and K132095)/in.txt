@@ -1,0 +1,11 @@
+char 'a', A, b, b;
+''
+void main (char d)
+{
+string "somestring";
+"another
+string"
+char 'abc', a, b;
+int c, a, e[10], g[ ];
+float *f;
+}

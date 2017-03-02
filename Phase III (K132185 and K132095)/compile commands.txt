@@ -1,0 +1,10 @@
+flex scanner.l
+bison -dv parser.y
+gcc lex.yy.c -o output.exe
+
+
+HOW I GOT RID OF ERRORS:
+1. we were using C keywords as tokens (void continue default waghera) so i just capitalized the token names and those errors went away
+2. some files were being included twice as a result of which yyerror ki definition ka masla araha tha
+3. mingw wala khudi ghayab hogaya on fixing others
+4. no need to include parser.tab.c while giving compilation command because lex.yy.c already includes it in start

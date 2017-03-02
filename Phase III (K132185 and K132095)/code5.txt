@@ -1,0 +1,17 @@
+int a, b;
+
+void main() {
+	float a, b;
+
+	int c;
+
+	a=10.0;
+	b=1.5;
+
+	c=a+b;
+
+	while (a<b {
+	a++
+	}
+	
+}
